@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,5 +37,29 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/prueba', function () {
+
+    $data = ['nombre' => 'Marlon Andres', 'edad' => 26];
+
+    $nacionalidad = 'Colombiana';
+            
+    return view('prueba', compact('data', 'nacionalidad'));
+});
+
+Route::get('/redireccionGay', function () {
+    return view('redireccion');
+})->name('redireccion');
+
+Route::resource('post', PostController::class);
+
+/*Route::get('post', [PostController::class, 'index']);
+Route::get('post/{post}', [PostController::class, 'store']);
+Route::get('post/{post}/edit', [PostController::class, 'edit']);
+Route::get('post/create', [PostController::class, 'create']);
+
+Route::post('post', [PostController::class, 'store']);
+Route::put('post/{post}', [PostController::class, 'update']);
+Route::post('post/{post}', [PostController::class, 'delete']);*/
 
 require __DIR__.'/auth.php';

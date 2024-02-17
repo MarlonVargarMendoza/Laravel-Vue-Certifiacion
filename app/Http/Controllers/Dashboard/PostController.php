@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('dashboard.create');
+
     }
 
     /**
@@ -21,7 +22,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::pluck('title', 'id');
+
+        return view('dashboard.create', compact('categories'));
+        
     }
 
     /**

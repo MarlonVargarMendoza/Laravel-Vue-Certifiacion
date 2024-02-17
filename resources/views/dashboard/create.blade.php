@@ -19,11 +19,24 @@
                 <th>Content</th>
                 <th>Image</th>
                 <th>Posted</th>
+                <th>Category</th>
             </tr>
             <tr style="text-align: center;">
                 <td><input name="Content" type="text"></td>
                 <td><input name="Image" type="text"></td>
-                <td><input name="Posted" type="text"></td>
+                <td><select name="Posted">
+                        <option disabled selected>Select An Option...</option>
+                        <option value="yes">YES</option>
+                        <option value="not">NOT</option>
+                    </select></td>
+                <td>
+                    <select name="Category">
+                        <option disabled selected>Select An Option...</option>
+                        @foreach ($categories as $id => $title)
+                            <option value={{$id}} >{{$title}} </option>
+                        @endforeach
+                    </select>
+                </td>
             </tr>
             <tr>
                 <th>Title</th>
@@ -35,6 +48,7 @@
                 <td><input name="Title" Title="text"></td>
                 <td><input name="Slug" type="text"></td>
                 <td><input name="Description" type="text"></td>
+
             </tr>
         </table>
         <br>

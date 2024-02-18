@@ -12,6 +12,8 @@
 <body>
     <h1 style="display: flex; justify-content: center">Crear Post</h1>
 
+    @include('errors.errorsCreate')
+
     <form action="{{ route('post.store') }}" method="post">
     @csrf
         <table style="width: 100%">
@@ -22,15 +24,15 @@
                 <th>Category</th>
             </tr>
             <tr style="text-align: center;">
-                <td><input name="Content" type="text"></td>
-                <td><input name="Image" type="text"></td>
-                <td><select name="Posted">
+                <td><input name="content" type="text"></td>
+                <td><input name="image" type="text"></td>
+                <td><select name="posted">
                         <option disabled selected>Select An Option...</option>
                         <option value="yes">YES</option>
                         <option value="not">NOT</option>
                     </select></td>
                 <td>
-                    <select name="Category">
+                    <select name="categories_id">
                         <option disabled selected>Select An Option...</option>
                         @foreach ($categories as $id => $title)
                             <option value={{$id}} >{{$title}} </option>
@@ -45,9 +47,9 @@
             </tr>
             <br>
             <tr style="text-align: center;">
-                <td><input name="Title" Title="text"></td>
-                <td><input name="Slug" type="text"></td>
-                <td><input name="Description" type="text"></td>
+                <td><input name="title" Title="text"></td>
+                <td><input name="slug" type="text"></td>
+                <td><input name="description" type="text"></td>
 
             </tr>
         </table>

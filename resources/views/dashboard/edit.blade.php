@@ -10,16 +10,15 @@
     <title>Document</title>
 </head>
 <body>
-    @include('errors.errorsCreate')
-
-    @if (session('Mensaje'))
-        {{session('Mensaje')}}
-    @endif
-
-    <section id="create">
-        <h1 style="display: flex; justify-content: center">Route Create</h1>
-        <form action="{{ route('post.store') }}" method="post">
+    @php
+        $data = $regisPost->toArray();
+    @endphp
+    <section id="edit">
+        @include('errors.errorsCreate')
+        <h1 style="display: flex; justify-content: center">Route Edit</h1>
+        <form action="{{ route('post.update', $data['id']) }}" method="post" enctype="multipart/form-data">
             @csrf
+            @method("PUT");
             <table style="width: 100%">
                 <tr>
                     <th>Content</th>
@@ -28,18 +27,20 @@
                     <th>Category</th>
                 </tr>
                 <tr style="text-align: center;">
-                    <td><input name="content" type="text"></td>
-                    <td><input name="image" type="text"></td>
+                    <td><input name="content" type="text" value="{{$data['content']}}"></td>
+                    <td><input name="image" type="file"></td>
                     <td><select name="posted">
                             <option disabled selected>Select An Option...</option>
-                            <option value="yes">YES</option>
-                            <option value="not">NOT</option>
+                            <option value="yes" {{ $data['posted'] == 'yes' ? 'selected' : ''}}>YES</option>
+                            <option  value="not" {{ $data['posted'] == 'not' ? 'selected' : ''}}>NOT</option>
                         </select></td>
                     <td>
                         <select name="categories_id">
                             <option disabled selected>Select An Option...</option>
                             @foreach ($categories as $id => $title)
-                                <option value={{$id}} >{{$title}} </option>
+                                <option {{ $data['categories_id'] == $id ? 'selected' : ''}}
+                                    value={{$id}} >{{$title}}
+                                </option>
                             @endforeach
                         </select>
                     </td>
@@ -51,21 +52,16 @@
                 </tr>
                 <br>
                 <tr style="text-align: center;">
-                    <td><input name="title" Title="text"></td>
-                    <td><input name="slug" type="text"></td>
-                    <td><input name="description" type="text"></td>
-    
+                    <td><input name="title" Title="text" value="{{$data['title']}}"></td>
+                    <td><input name="slug" type="text" value="{{$data['slug']}}"></td>
+                    <td><input name="description" type="text" value="{{$data['description']}}"></td>
                 </tr>
             </table>
             <br>
             <div style="display: flex; justify-content: center">
-                <button type="submit">Crear Registro</button>
+                <button type="submit">Editar Registro</button>
             </div>
         </form>
-    </section>
-    <br>
-    <section id="index">
-        @include('dashboard.index')
     </section>
 
 </body>

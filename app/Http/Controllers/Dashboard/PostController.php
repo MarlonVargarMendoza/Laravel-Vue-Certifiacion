@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\PostRequest;
+use App\Http\Requests\Post\PutRequest;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -15,7 +16,19 @@ class PostController extends Controller
      */
     public function index()
     {
+        $dataPost = Post::leftJoin('categories AS cat', 'posts.categories_id', '=', 'cat.id')
+            ->select(
+                'posts.id',
+                'posts.content',
+                'posts.image',
+                'posts.posted',
+                'cat.title AS categories_id',
+                'posts.title',
+                'posts.slug',
+                'posts.description'
+            )->paginate(4);
 
+        return view('dashboard.index', compact('dataPost'));
     }
 
     /**
@@ -25,8 +38,9 @@ class PostController extends Controller
     {
         $categories = Category::pluck('title', 'id');
 
-        return view('dashboard.create', compact('categories'));
-        
+        $dataPost = $this->index()->getData()['dataPost'];
+
+        return view('dashboard.create', compact('categories', 'dataPost'));  
     }
 
     /**
@@ -34,8 +48,12 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        dd('true');
-        Post::create($request->all());
+        try {
+            Post::create($request->validated());
+            return redirect()->route('post.create');
+        } catch (\Throwable $e) {
+            return response()->json($e);
+        }
     }
 
     /**
@@ -43,23 +61,40 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        dd($post->toArray());
+        echo "Metod SHOW";
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        //
+        $regisPost = Post::find($id);
+
+        $categories = $this->create()->getData()['categories'];
+
+        return view('dashboard.edit', compact('regisPost', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PutRequest $request, Post $post)
     {
-        //
+        $data = $request->validated();
+        
+        if ($request->hasFile('image')) {
+            
+            $archivo = $request->file('image');
+            $fileName = "post_{$post->id}_".time().'.'.$archivo->extension();
+            $data['image'] = $fileName;
+            $archivo->move('image', $fileName);
+        }
+
+        $post->update($data);
+
+        return to_route('post.create')->with('Mensaje', 'Registro Actualizado Correctamente');
     }
 
     /**
@@ -67,6 +102,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return to_route('post.create');
+        
     }
 }

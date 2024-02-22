@@ -53,13 +53,4 @@ Route::get('/redireccionGay', function () {
 
 Route::resource('post', PostController::class);
 
-/*Route::get('post', [PostController::class, 'index']);
-Route::get('post/{post}', [PostController::class, 'store']);
-Route::get('post/{post}/edit', [PostController::class, 'edit']);
-Route::get('post/create', [PostController::class, 'create']);
-
-Route::post('post', [PostController::class, 'store']);
-Route::put('post/{post}', [PostController::class, 'update']);
-Route::post('post/{post}', [PostController::class, 'delete']);*/
-
 require __DIR__.'/auth.php';

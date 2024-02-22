@@ -26,7 +26,7 @@ class PostController extends Controller
                 'posts.title',
                 'posts.slug',
                 'posts.description'
-            )->paginate(4);
+            )->paginate(3);
 
         return view('dashboard.index', compact('dataPost'));
     }

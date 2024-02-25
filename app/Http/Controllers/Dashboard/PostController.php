@@ -7,14 +7,16 @@ use App\Http\Requests\Post\PostRequest;
 use App\Http\Requests\Post\PutRequest;
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $dataPost = Post::leftJoin('categories AS cat', 'posts.categories_id', '=', 'cat.id')
             ->select(
@@ -28,25 +30,27 @@ class PostController extends Controller
                 'posts.description'
             )->paginate(3);
 
+        dd($dataPost);
+
         return view('dashboard.index', compact('dataPost'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         $categories = Category::pluck('title', 'id');
 
         $dataPost = $this->index()->getData()['dataPost'];
 
-        return view('dashboard.create', compact('categories', 'dataPost'));  
+        return view('dashboard.create', compact('categories', 'dataPost'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostRequest $request)
+    public function store(PostRequest $request): RedirectResponse
     {
         try {
             Post::create($request->validated());
@@ -59,7 +63,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Post $post): View
     {
         dd($post->toArray());
         echo "Metod SHOW";
@@ -68,7 +72,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id): View
     {
         $regisPost = Post::find($id);
 
@@ -80,7 +84,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PutRequest $request, Post $post)
+    public function update(PutRequest $request, Post $post): RedirectResponse
     {
         $data = $request->validated();
         
@@ -100,7 +104,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         $post->delete();
         return to_route('post.create');

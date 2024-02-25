@@ -17,8 +17,8 @@ class Post extends Model
        'posted',
        'categories_id',
        'description',
-       'created_ad',
-       'updated_ad'
+       'created_at',
+       'updated_at'
     ];
 
 }

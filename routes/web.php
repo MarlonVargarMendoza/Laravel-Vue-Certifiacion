@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -52,5 +53,7 @@ Route::get('/redireccionGay', function () {
 })->name('redireccion');
 
 Route::resource('post', PostController::class);
+
+Route::resource('category', CategoryController::class);
 
 require __DIR__.'/auth.php';

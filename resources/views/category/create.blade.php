@@ -24,20 +24,18 @@
 
         <form action=" {{ route('category.store') }} " method="post">
             @csrf
-            <div class="flex justify-center">
-            <table class="table">
-                    <tr>
-                        <th>Title</th>
-                        <th>Slug</th>
-                    </tr>
-                    <tr style="text-align: center">
-                        <td><input type="text" name="title"></td>
-                        <td><input type="text" name="slug"></td>
-                    </tr>
+            <table style="width: 100%">
+                <tr>
+                    <th>Title</th>
+                    <th>Slug</th>
+                </tr>
+                <tr style="text-align: center">
+                    <td><input type="text" name="title"></td>
+                    <td><input type="text" name="slug"></td>
+                </tr>
             </table>
-            </div>
             <div style="display: flex; justify-content: center">
-                <button class="btnCreate" type="submit">Crear Categoria</button>
+                <button type="submit">Crear Categoria</button>
             </div>
         </form>
 

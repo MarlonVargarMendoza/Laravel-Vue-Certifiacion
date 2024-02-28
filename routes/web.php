@@ -48,12 +48,14 @@ Route::get('/prueba', function () {
     return view('prueba', compact('data', 'nacionalidad'));
 });
 
-Route::get('/redireccionGay', function () {
+Route::get('/nombreEditado', function () {
     return view('redireccion');
 })->name('redireccion');
 
-Route::resource('post', PostController::class);
 
-Route::resource('category', CategoryController::class);
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::resource('post', PostController::class);
+    Route::resource('category', CategoryController::class);
+});
 
 require __DIR__.'/auth.php';

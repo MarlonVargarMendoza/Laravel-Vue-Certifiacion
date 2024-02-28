@@ -30,8 +30,6 @@ class PostController extends Controller
                 'posts.description'
             )->paginate(3);
 
-        dd($dataPost);
-
         return view('dashboard.index', compact('dataPost'));
     }
 

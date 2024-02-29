@@ -50,5 +50,4 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::resource('category', CategoryController::class);
 });
 
-
 require __DIR__.'/auth.php';

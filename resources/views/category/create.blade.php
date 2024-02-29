@@ -20,7 +20,7 @@
 
         @include('errors.errorsCreate')  
 
-        <h1 style="display: flex; justify-content: center" >Create Categories</h1>
+        <h1 style="display: flex; justify-content: center" >Created Categories</h1>
 
         <form action=" {{ route('category.store') }} " method="post">
             @csrf

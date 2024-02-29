@@ -45,7 +45,7 @@ Route::get('/nombreEditado', function () {
 })->name('redireccion');
 
 
-Route::group(['prefix' => 'dashboard'], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::resource('post', PostController::class);
     Route::resource('category', CategoryController::class);
 });

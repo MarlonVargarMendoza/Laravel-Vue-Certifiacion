@@ -14,18 +14,20 @@
         <form action="{{ route('category.update', $category->id) }}" method="post">
             @csrf
             @method('PUT')
-            <table style="width: 100%">
-                <tr>
-                    <th>Title</th>
-                    <th>Slug</th>
-                </tr>
-                <tr style="text-align: center">
-                    <td><input type="text" name="title" value="{{$category->title}}"></td>
-                    <td><input type="text" name="slug" value="{{$category->slug}}"></td>
-                </tr>
-            </table>
+            <div class="flex justify-center" >
+                <table class="table">
+                    <tr>
+                        <th>Title</th>
+                        <th>Slug</th>
+                    </tr>
+                    <tr style="text-align: center">
+                        <td><input type="text" name="title" value="{{$category->title}}"></td>
+                        <td><input type="text" name="slug" value="{{$category->slug}}"></td>
+                    </tr>
+                </table>
+            </div>
             <div style="display: flex; justify-content: center">
-                <button type="submit">Editar Categoria</button>
+                <button class="btnEdit" type="submit">Editar Categoria</button>
             </div>
         </form>
     @endsection

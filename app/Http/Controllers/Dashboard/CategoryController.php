@@ -37,15 +37,16 @@ class CategoryController extends Controller
      */
     public function store(StoreRequest $request): RedirectResponse
     {
+        $validateData = $request->validated();
+
         try {
 
-            Category::create($request->validated());
-
+            Category::create($validateData);
             return to_route('category.create')->with('Mensaje', 'Registro Creado Correctamente');
 
         } catch (\Throwable $e) {
-            dd($e);
-            return to_route('category.create');
+
+            return to_route('category.create')->withErrors(['error' => 'Error Interno!!!']);
         }
     }
 
@@ -71,7 +72,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category): RedirectResponse
     {
         $category->update($request->toArray());
-        return to_route('category.create');
+        return to_route('category.create')->with('Mensaje', 'Registro Editado Correctamente');
     }
 
     /**

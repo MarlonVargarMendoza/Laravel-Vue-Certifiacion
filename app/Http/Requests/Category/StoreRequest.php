@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Requests\Category;
-
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Validation\ValidationException;
 
 class StoreRequest extends FormRequest
 {
@@ -26,4 +27,13 @@ class StoreRequest extends FormRequest
             'slug' => 'required'
         ];
     }
+
+    public function failedValidation (\Illuminate\Contracts\Validation\Validator $validator) {
+        
+        if($this->expectsJson()) {
+            $response = new HttpResponse($validator->errors(), 422);
+            throw new ValidationException($validator, $response);
+        }
+    }
+
 }

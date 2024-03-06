@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
+
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -19,6 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('buy/{name}', [CategoryController::class, 'categories']);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('buy/{title}', [CategoryController::class, 'categories']);
+    Route::resource('category', CategoryController::class)->except('create', 'edit');
+});
 
-Route::resource('category', CategoryController::class)->except('create', 'edit');
+Route::post('token', [UserController::class, 'login']);

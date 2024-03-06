@@ -56,11 +56,11 @@ class CategoryController extends Controller
         return response()->json(['Mensaje' => 'Exitooo!! Registro Eliminado Correctamente']);
     }
 
-    public function categories($name) {
+    public function categories($title)
+    {
+        $categoriy = Category::where('title', $title)->get();
 
-        $categoriy = Category::where('title', $name)->first();
-
-        if ($categoriy) {
+        if ($categoriy->isNotEmpty()) {
             return response()->json($categoriy);
         } else {
             return response()->json(['Respuesta' => 'No hay coincidencias']);

@@ -36,4 +36,8 @@ class StoreRequest extends FormRequest
         }
     }
 
+    /*public function  passedValidation () {
+        dd('todo ok');
+    }*/
+
 }

@@ -21,9 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('token', [UserController::class, 'login']);
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('buy/{title}', [CategoryController::class, 'categories']);
     Route::resource('category', CategoryController::class)->except('create', 'edit');
 });
 
-Route::post('token', [UserController::class, 'login']);

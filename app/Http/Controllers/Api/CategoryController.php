@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
 
-    public function index () {
+    public function index ()
+    {
 
         $category = Category::get();
         return response()->json($category);
@@ -61,7 +62,7 @@ class CategoryController extends Controller
         $categoriy = Category::where('title', $title)->get();
 
         if ($categoriy->isNotEmpty()) {
-            return response()->json($categoriy);
+            return response()->json(['Registro Encontrado' => $categoriy]);
         } else {
             return response()->json(['Respuesta' => 'No hay coincidencias']);
         }

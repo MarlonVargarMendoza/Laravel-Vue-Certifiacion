@@ -50,4 +50,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::resource('category', CategoryController::class);
 });
 
+Route::get('/vue', function() {
+    return view('vue');
+});
+
 require __DIR__.'/auth.php';

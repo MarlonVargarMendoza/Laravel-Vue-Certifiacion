@@ -28,16 +28,11 @@ class StoreRequest extends FormRequest
         ];
     }
 
-    public function failedValidation (\Illuminate\Contracts\Validation\Validator $validator) {
-        
+    public function failedValidation (\Illuminate\Contracts\Validation\Validator $validator)
+    {
         if($this->expectsJson()) {
             $response = new HttpResponse($validator->errors(), 422);
             throw new ValidationException($validator, $response);
         }
     }
-
-    /*public function  passedValidation () {
-        dd('todo ok');
-    }*/
-
 }

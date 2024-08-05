@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -33,9 +33,21 @@ class CategoryController extends Controller
         }
     }
 
-    public function show(Category $category)
+    public function show($category)// FORMA CORRECTA DE MANEJO DE ERRORES
     {
-        return response()->json($category);
+        try {
+            $store = Category::find($category);
+    
+            if ($store) {
+                return response()->json(['Mensaje' => 'Registro Encontrado Correctamente', 'data' => $store], 200);
+            } else {
+                return response()->json(['Mensaje' => 'Registro no encontrado.'], 404);
+            }
+    
+        } catch (\Throwable $e) {
+            Log::error('Error al obtener el registro: ' . $e->getMessage());
+            return response()->json(['Mensaje' => 'Error Interno, comuniquese con soporte'], 500);
+        }
     }
 
     public function update(Request $request, Category $category)
@@ -45,16 +57,20 @@ class CategoryController extends Controller
             $category->update($request->toArray());
             return response()->json(['Mensaje' => 'Exitooo!! Registro Editado Correctamente']);
 
-        } catch (\Throwable $th) {
-            
-            return response()->json(['Mensaje' => 'Error Interno!!!']);
+        } catch (\Exception $e) {
+            return response()->json(['Mensaje' => 'Error interno.'], 500);
         }
     }
 
     public function destroy(Category $category)
     {
-        $category->delete();
-        return response()->json(['Mensaje' => 'Exitooo!! Registro Eliminado Correctamente']);
+        try {
+            $category->delete();
+            return response()->json(['Mensaje' => 'Exitooo!! Registro Eliminado Correctamente']);
+
+        } catch (\Throwable $th) {
+            return response()->json(['Mensaje' => 'Error!! Registro No Encontrado']);
+        }
     }
 
     public function categories($title)
